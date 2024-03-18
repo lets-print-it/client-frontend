@@ -4,28 +4,12 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import PrinterBottomSheet from "./PrinterBottomSheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { useLoaderData } from "react-router-dom";
-import { getLocations } from "./api/printit";
+import { getLocations } from "../../api/printit";
+import { getUserLocation } from "../../api/location";
 
 export async function load() {
   return getLocations();
 }
-
-const getUserLocation = () => {
-  return new Promise((resolve, reject) => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve([position.coords.latitude, position.coords.longitude]);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-    } else {
-      reject(new Error("Geolocation is not supported by this browser."));
-    }
-  });
-};
 
 function PrintersMap() {
   const [selectedPrinterAndLocation, setSelectedPrinterAndLocation] = useState({
@@ -51,7 +35,7 @@ function PrintersMap() {
   };
 
   useEffect(() => {
-    getAndSetUserLocation();
+    getAndSetUserLocation().catch((e) => console.error(e));
   }, []);
 
   return (

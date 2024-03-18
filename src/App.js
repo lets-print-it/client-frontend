@@ -1,11 +1,11 @@
-import PrintersMap, { load } from "./PrintersMap";
+import PrintersMap, { load } from "./components/Map/PrintersMap";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import OrderCreationScreen, {
   createOrder,
   load as orderCreateLoad,
-} from "./OrderCreationScreen";
-import CodeEnterScreen from "./CodeEnterScreen";
-import OrderConfirmation from "./OrderConfirmation";
+} from "./components/OrderCreationScreen";
+import CodeEnterScreen from "./components/CodeEnterScreen";
+import OrderConfirmation from "./components/OrderConfirmation";
 import { YMaps } from "@pbe/react-yandex-maps";
 
 const router = createBrowserRouter([

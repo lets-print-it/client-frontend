@@ -1,7 +1,7 @@
 import React from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
-import Sheet from "./Sheet";
+import Sheet from "./Sheet/Sheet";
 
 function CodeEnterScreen(props) {
   const navigate = useNavigate();

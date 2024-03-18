@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Form, useLoaderData } from "react-router-dom";
 import axios from "axios";
-import Sheet from "./Sheet";
+import Sheet from "./Sheet/Sheet";
 import { Document, pdfjs, Thumbnail } from "react-pdf";
-import { getPrinter } from "./api/printit";
+import { getPrinter } from "../api/printit";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
