@@ -3,11 +3,21 @@
 import axios from 'axios';
 
 export async function getLocations() {
-    let res = await axios.get('http://10.74.1.93:8000/api/v1/locations/');
+    // add headers for ngrok
+    let res = await axios.get('https://mongrel-careful-truly.ngrok-free.app/api/v1/locations/', {
+        headers:{
+            "ngrok-skip-browser-warning": "69420",
+        },
+    })
+
     return res.data;
 }
 
 export async function getPrinter(printerCode) {
-    let res = await axios.get(`http://10.74.1.93:8000/api/v1/printers/${printerCode}/`);
+    let res = await axios.get(`https://mongrel-careful-truly.ngrok-free.app/api/v1/printers/${printerCode}/`, {
+        headers:{
+            "ngrok-skip-browser-warning": "69420",
+        },
+    })
     return res.data;
 }
