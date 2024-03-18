@@ -1,4 +1,3 @@
-import "./App.css";
 import PrintersMap, { load } from "./PrintersMap";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import OrderCreationScreen, {
