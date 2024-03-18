@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import Sheet from "./Sheet";
-import { Document, Page, pdfjs, Thumbnail } from "react-pdf";
+import { Document, pdfjs, Thumbnail } from "react-pdf";
 import { getPrinter } from "./api/printit";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -59,7 +59,7 @@ function OrderCreationScreen() {
             <img
               className="h-full w-full object-contain"
               src={printer.photo}
-              alt="printer image"
+              alt="printer"
               width="100px"
               height="100px"
             />

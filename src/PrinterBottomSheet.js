@@ -14,7 +14,7 @@ function PrinterBottomSheet({ printer, location }) {
         <img
           className="h-full w-full object-contain"
           src={printer.photo}
-          alt="printer image"
+          alt="printer"
           width="100px"
           height="100px"
         />
