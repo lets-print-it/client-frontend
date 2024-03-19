@@ -10,7 +10,7 @@ function OrderConfirmation() {
 
   async function confirmAndRedirect() {
     let order = await confirmOrder(confirmationToken);
-    navigate(`/orders/${order.id}`);
+    navigate(`/order/${order.id}`);
   }
 
   useEffect(() => {
