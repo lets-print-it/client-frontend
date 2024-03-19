@@ -3,28 +3,34 @@ import { Map, Placemark } from "@pbe/react-yandex-maps";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import PrinterBottomSheet from "./PrinterBottomSheet";
 import "react-spring-bottom-sheet/dist/style.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { getLocations } from "../../api/printit";
 import { getUserLocation } from "../../api/location";
+import { Location, Printer } from "../../models/printit";
 
-export async function load() {
-  return getLocations();
+export async function load(): Promise<Location[]> {
+  return await getLocations();
 }
 
 function PrintersMap() {
-  const [selectedPrinterAndLocation, setSelectedPrinterAndLocation] = useState({
-    printer: null,
-    location: null,
-  });
+  const [selection, setSelection] = useState<{
+    printer: Printer;
+    location: Location;
+  } | null>(null);
   const [bottomSheet, setBottomSheet] = useState(false);
   const [userLocation, setUserLocation] = useState([55.75, 37.57]);
   const [zoom, setZoom] = useState(9);
 
-  const mapRef = useRef(null);
+  const mapRef = useRef<any>(null);
 
-  const locations = useLoaderData();
+  const locations = useLoaderData() as Location[];
+  const navigate = useNavigate();
 
-  const getAndSetUserLocation = async () => {
+  function onPrintButtonClick() {
+    navigate("/code_enter");
+  }
+
+  async function getAndSetUserLocation() {
     try {
       let loc = await getUserLocation();
       setUserLocation(loc);
@@ -32,7 +38,7 @@ function PrintersMap() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }
 
   useEffect(() => {
     getAndSetUserLocation().catch((e) => console.error(e));
@@ -54,13 +60,14 @@ function PrintersMap() {
       >
         {locations.map((location) => (
           <Placemark
+            key={location.id}
             geometry={[location.latitude, location.longitude]}
             options={{
               preset: "islands#lightBlueIcon",
               iconColor: "#3b82f6",
             }}
             onClick={() => {
-              setSelectedPrinterAndLocation({
+              setSelection({
                 printer: location.printers[0],
                 location: location,
               });
@@ -70,16 +77,22 @@ function PrintersMap() {
         ))}
       </Map>
       <div className="fixed bottom-0 left-1/2 mb-14 -translate-x-1/2">
-        <button className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700">
+        <button
+          className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+          onClick={onPrintButtonClick}
+        >
           Print It!
         </button>
       </div>
       <div className="max-w-lg">
         <BottomSheet open={bottomSheet} onDismiss={() => setBottomSheet(false)}>
-          <PrinterBottomSheet
-            printer={selectedPrinterAndLocation.printer}
-            location={selectedPrinterAndLocation.location}
-          />
+          {selection && (
+            <PrinterBottomSheet
+              printer={selection.printer}
+              location={selection.location}
+              onPrintButtonClick={onPrintButtonClick}
+            />
+          )}
         </BottomSheet>
       </div>
     </>

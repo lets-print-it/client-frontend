@@ -2,25 +2,31 @@ import React from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
 import Sheet from "./Sheet/Sheet";
+import { getPrinter } from "../api/printit";
 
-function CodeEnterScreen(props) {
+function CodeEnterScreen() {
   const navigate = useNavigate();
   const [input, setInput] = React.useState("");
-  const handleInput = (e) => {
-    setInput(e.target.value);
-  };
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  function handleQrResult(result, error) {
+  function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setInput(e.target.value);
+  }
+
+  function handleQrResult(result: any, error: any) {
     if (!!result) {
       let text = result.text;
-      // get only last part of url
       let code = text.split("/").pop();
-      redirectToPrinter(code);
+      checkAndRedirectToPrinter(code);
     }
   }
 
-  function redirectToPrinter(printer_code) {
-    navigate(`/printer/${printer_code}/new_order`, { replace: false });
+  async function checkAndRedirectToPrinter(printerCode: string) {
+    if ((await getPrinter(printerCode)) !== null) {
+      navigate(`/printer/${printerCode}/new_order`, { replace: false });
+    } else {
+      setErrorMessage("Принтер не найден");
+    }
   }
 
   return (
@@ -51,8 +57,19 @@ function CodeEnterScreen(props) {
           placeholder="AB07"
           required
         />
+        {errorMessage && (
+          <div className="mt-4 w-full rounded-lg bg-red-100 p-2 text-center text-sm text-red-500">
+            {errorMessage}
+          </div>
+        )}
         <button
-          onClick={() => redirectToPrinter(input)}
+          onClick={() => {
+            if (input.length === 0) {
+              setErrorMessage("Введите код принтера");
+              return;
+            }
+            checkAndRedirectToPrinter(input);
+          }}
           className="group relative mb-2 me-2 mt-10 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-cyan-200 group-hover:from-cyan-500 group-hover:to-blue-500"
         >
           <span className="relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0">

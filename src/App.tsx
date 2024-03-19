@@ -1,7 +1,7 @@
 import PrintersMap, { load } from "./components/Map/PrintersMap";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import OrderCreationScreen, {
-  createOrder,
+  createOrderAction,
   load as orderCreateLoad,
 } from "./components/OrderCreationScreen";
 import CodeEnterScreen from "./components/CodeEnterScreen";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
   {
     path: "/printer/:printerCode/new_order",
     element: <OrderCreationScreen />,
-    action: createOrder,
+    action: createOrderAction,
     loader: orderCreateLoad,
   },
   {

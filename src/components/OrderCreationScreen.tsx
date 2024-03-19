@@ -3,49 +3,48 @@ import { Form, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import Sheet from "./Sheet/Sheet";
 import { Document, pdfjs, Thumbnail } from "react-pdf";
-import { getPrinter } from "../api/printit";
+import { createOrder, getPrinter } from "../api/printit";
+import PrinterInfoCard from "./PrinterInfoCard/PrinterInfoCard";
+import { Printer } from "../models/printit";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
   import.meta.url,
 ).toString();
 
-export async function load({ params }) {
+export async function load({ params }: { params: any }) {
   return await getPrinter(params.printerCode);
 }
 
-export async function createOrder({ request }) {
+export async function createOrderAction({ request }: { request: any }) {
   let formData = await request.formData();
-  let res = await axios.post(
-    `https://mongrel-careful-truly.ngrok-free.app/api/v1/orders?printer_code=${formData.get("printer_code")}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    },
-  );
-  window.location.href = res.data.payment.payment_url;
+
+  let res = await createOrder(formData.get("printer_code"), formData);
+  window.location.href = res.payment.payment_url;
   return null;
 }
 
 function OrderCreationScreen() {
-  const printer = useLoaderData();
+  const printer = useLoaderData() as Printer;
 
   const [numPages, setNumPages] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
 
-  function onDocumentLoadSuccess({ numPages }) {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     setTotalPrice(numPages * printer.bw_price);
   }
 
-  function handleFileSelect(event) {
+  function handleFileSelect(event: any) {
+    if (event.target.files[0].type !== "application/pdf") {
+      alert("Only PDF files are allowed");
+      return;
+    }
+
     let file = event.target.files[0];
-    // read bytes
     let reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function (e: any) {
       setUploadedFile(e.target.result);
     };
     reader.readAsDataURL(file);
@@ -54,21 +53,7 @@ function OrderCreationScreen() {
   return (
     <Sheet>
       <div className="min-w-96 bg-white">
-        <div className="flex w-full">
-          <div className="h-32 w-32">
-            <img
-              className="h-full w-full object-contain"
-              src={printer.photo}
-              alt="printer"
-              width="100px"
-              height="100px"
-            />
-          </div>
-          <div className="ml-5">
-            <h2 className="text-2xl font-bold">{printer.code}</h2>
-            <p>Стоимость: {printer.bw_price} руб/л</p>
-          </div>
-        </div>
+        <PrinterInfoCard printer={printer} />
         <div>
           <Form method="post" encType="multipart/form-data">
             <label htmlFor="file" className="sr-only">
@@ -84,11 +69,15 @@ function OrderCreationScreen() {
               type="file"
               name="file"
               id="file"
+              accept=".pdf"
               className="block w-full rounded-lg border border-gray-200 text-sm shadow-sm file:me-4 file:border-0 file:bg-gray-50 file:px-4
                         file:py-3 focus:z-10 focus:border-blue-500
                         focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
               onChange={handleFileSelect}
             />
+            <span className="mt-2 block text-sm text-gray-500">
+              Поддерживаемые форматы: PDF
+            </span>
             {/*<div className="flex items-start mb-5">*/}
             {/*    <div className="flex items-center h-5">*/}
             {/*        <input id="terms" type="checkbox" value=""*/}
@@ -105,9 +94,10 @@ function OrderCreationScreen() {
             {/*    <label htmlFor="terms"*/}
             {/*           className="ms-2 text-sm font-medium text-gray-900">Цветная печать</label>*/}
             {/*</div>*/}
+
             {uploadedFile !== null && (
               <div className="mt-5">
-                <h3 className="font-semibold">Загруженный документ</h3>
+                <h3 className="text-xl font-semibold">Загруженный документ</h3>
                 <Document
                   file={uploadedFile}
                   onLoadSuccess={onDocumentLoadSuccess}
@@ -117,10 +107,14 @@ function OrderCreationScreen() {
                 </Document>
               </div>
             )}
-            <span className="mt-2 block">
-              Итоговая стоимость: {numPages} л. x {printer.bw_price} руб. ={" "}
-              {totalPrice}
-            </span>
+            <div>
+              <h3 className="text-xl font-semibold">Стоимость</h3>
+              <span className="ml-2 mt-4 block">
+                <span className="text-md font-semibold">{totalPrice} руб.</span>{" "}
+                = {numPages} страницы x {printer.bw_price} руб.
+              </span>
+            </div>
+
             <br />
             <button
               type="submit"
