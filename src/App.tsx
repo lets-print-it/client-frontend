@@ -7,6 +7,8 @@ import OrderCreationScreen, {
 import CodeEnterScreen from "./components/CodeEnterScreen";
 import OrderConfirmation from "./components/OrderConfirmation";
 import { YMaps } from "@pbe/react-yandex-maps";
+import React from "react";
+import OrderScreen, { load as orderScreenLoad } from "./components/OrderScreen";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,11 @@ const router = createBrowserRouter([
   {
     path: "/confirm_order/:confirmationToken",
     element: <OrderConfirmation />,
+  },
+  {
+    path: "/order/:orderId",
+    element: <OrderScreen />,
+    loader: orderScreenLoad,
   },
 ]);
 

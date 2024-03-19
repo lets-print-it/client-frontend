@@ -59,4 +59,5 @@ export interface OrderAttachment {
   file_path: string;
   duplex: boolean;
   color: boolean;
+  pages: number;
 }

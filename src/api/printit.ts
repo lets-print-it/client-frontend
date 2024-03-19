@@ -47,3 +47,19 @@ export async function confirmOrder(confirmationToken: string): Promise<Order> {
   let res = await client.get(`orders/confirm/${confirmationToken}`);
   return res.data;
 }
+
+export async function getOrder(orderId: string): Promise<Order> {
+  let res = await client.get(`orders/${orderId}`);
+  return res.data;
+}
+
+export async function leaveReview(
+  orderId: string,
+  rating: number,
+  comment: string | null = null,
+) {
+  await client.post(`orders/${orderId}/review`, {
+    rating: rating,
+    comment: comment,
+  });
+}
