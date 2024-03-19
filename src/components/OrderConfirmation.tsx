@@ -1,14 +1,20 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { confirmOrder } from "../api/printit";
 import Sheet from "./Sheet/Sheet";
 
 function OrderConfirmation() {
   let { confirmationToken } = useParams() as { confirmationToken: string };
+  const navigate = useNavigate();
+
+  async function confirmAndRedirect() {
+    let order = await confirmOrder(confirmationToken);
+    navigate(`/orders/${order.id}`);
+  }
 
   useEffect(() => {
-    confirmOrder(confirmationToken);
+    confirmAndRedirect();
   }, [confirmationToken]);
 
   return (
