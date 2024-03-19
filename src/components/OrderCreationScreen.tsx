@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Form, useLoaderData } from "react-router-dom";
-import axios from "axios";
 import Sheet from "./Sheet/Sheet";
 import { Document, pdfjs, Thumbnail } from "react-pdf";
 import { createOrder, getPrinter } from "../api/printit";
 import PrinterInfoCard from "./PrinterInfoCard/PrinterInfoCard";
 import { Printer } from "../models/printit";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//   "pdfjs-dist/build/pdf.worker.min.js",
+//   import.meta.url,
+// ).toString();
 
 export async function load({ params }: { params: any }) {
   return await getPrinter(params.printerCode);
