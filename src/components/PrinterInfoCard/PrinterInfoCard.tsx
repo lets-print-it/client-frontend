@@ -23,7 +23,7 @@ function PrinterInfoCard({
         <span className="rounded-full bg-gray-600 px-4 py-1 text-xs text-white">
           Ч/Б печать
         </span>
-        <h2 className="mt-3 text-2xl font-bold">{printer.code}</h2>
+        <h2 className="mt-3 text-2xl font-bold">{printer.id}</h2>
         {location && (
           <>
             <span className="font-semibold text-gray-400">

@@ -59,12 +59,7 @@ function OrderCreationScreen() {
             <label htmlFor="file" className="sr-only">
               Choose file
             </label>
-            <input
-              hidden
-              type="text"
-              name="printer_code"
-              value={printer.code}
-            />
+            <input hidden type="text" name="printer_code" value={printer.id} />
             <input
               type="file"
               name="file"

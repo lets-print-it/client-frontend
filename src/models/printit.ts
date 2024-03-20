@@ -1,5 +1,5 @@
 export interface Printer {
-  code: string;
+  id: string;
   location_id: string;
   color: boolean;
   duplex: boolean;
@@ -45,7 +45,7 @@ export interface OrderPayment {
 
 export interface Order {
   user_id: string | null;
-  printer_code: string;
+  printer_id: string;
   id: string;
   total: string;
   status: OrderStatus;
