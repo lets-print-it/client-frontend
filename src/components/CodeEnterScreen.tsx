@@ -3,6 +3,7 @@ import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
 import Sheet from "./Sheet/Sheet";
 import { getPrinter } from "../api/printit";
+import Button from "./elements/Button";
 
 function CodeEnterScreen() {
   const navigate = useNavigate();
@@ -44,16 +45,16 @@ function CodeEnterScreen() {
           onResult={handleQrResult}
           constraints={{ facingMode: "environment" }}
         />
-
         <p className="mb-1 pt-7 text-xs text-gray-500">
           или введите код принтера вручную
         </p>
+
         <input
           value={input}
           onChange={handleInput}
           type="text"
           id="first_name"
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          className="block w-52 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-center text-sm tracking-widest text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           placeholder="AB07"
           required
         />
@@ -62,7 +63,9 @@ function CodeEnterScreen() {
             {errorMessage}
           </div>
         )}
-        <button
+        <Button
+          className="mb-2 mt-10"
+          text="Выбрать принтер"
           onClick={() => {
             if (input.length === 0) {
               setErrorMessage("Введите код принтера");
@@ -70,12 +73,7 @@ function CodeEnterScreen() {
             }
             checkAndRedirectToPrinter(input);
           }}
-          className="group relative mb-2 me-2 mt-10 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-cyan-200 group-hover:from-cyan-500 group-hover:to-blue-500"
-        >
-          <span className="relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0">
-            Выбрать принтер
-          </span>
-        </button>
+        />
       </div>
     </Sheet>
   );

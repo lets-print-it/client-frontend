@@ -5,6 +5,7 @@ import { Document, pdfjs, Thumbnail } from "react-pdf";
 import { createOrder, getPrinter } from "../api/printit";
 import PrinterInfoCard from "./PrinterInfoCard/PrinterInfoCard";
 import { Printer } from "../models/printit";
+import Button from "./elements/Button";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -93,12 +94,10 @@ function OrderCreationScreen() {
           </div>
 
           <br />
-          <button
-            type="submit"
-            className="mx-auto mt-1 block h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-          >
-            Print It!
-          </button>
+          {/* TODO: redo this one day (problem with "block" on button) */}
+          <div className="flex justify-center">
+            <Button text="Печатать" type="submit" className="ml mt-1 block " />
+          </div>
         </Form>
       </div>
     </Sheet>
