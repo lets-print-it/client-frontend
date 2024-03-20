@@ -3,10 +3,10 @@ import { Printer, Location, Order } from "../models/printit";
 
 let client = axios.create({
   timeout: 20000,
-  baseURL: "http://api.letsprintit.ru/api/v1/",
-  headers: {
-    "ngrok-skip-browser-warning": "69420",
-  },
+  baseURL: "https://api.letsprintit.ru/api/v1/",
+  // headers: {
+  //   "ngrok-skip-browser-warning": "69420",
+  // },
 });
 
 export async function getLocations(): Promise<Location[]> {
