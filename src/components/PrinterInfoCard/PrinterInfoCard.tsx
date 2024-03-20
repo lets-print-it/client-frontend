@@ -10,13 +10,11 @@ function PrinterInfoCard({
 }) {
   return (
     <div className="flex">
-      <div className="h-52 w-52">
+      <div className="w-5/12 max-w-52">
         <img
-          className="h-full w-full object-contain"
+          className="w-full object-contain"
           src={printer.photo}
           alt="printer"
-          width="100px"
-          height="100px"
         />
       </div>
       <div className="ml-5">
@@ -26,14 +24,13 @@ function PrinterInfoCard({
         <h2 className="mt-3 text-2xl font-bold">{printer.id}</h2>
         {location && (
           <>
-            <span className="font-semibold text-gray-400">
-              {location.address}
-            </span>
-            <p>{location.help_text}</p>
+            <p className="font-semibold text-gray-400">{location.address}</p>
+            <p className="mt-3">{location.help_text}</p>
             <br />
           </>
         )}
-        Стоимость: {printer.bw_price} руб/л
+        <span className="mr-4 font-bold">ЧБ печать</span> {printer.bw_price}{" "}
+        руб/л
       </div>
     </div>
   );

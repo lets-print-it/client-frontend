@@ -8,8 +8,8 @@ function Sheet({
   className?: string;
 }) {
   return (
-    <div className="flex h-screen w-screen justify-center bg-blue-100">
-      <div className="max-w-lg pt-7">
+    <div className="flex w-screen justify-center">
+      <div className="my-5 w-11/12 max-w-md">
         <div className={`${className} rounded-lg bg-white p-5`}>{children}</div>
       </div>
     </div>

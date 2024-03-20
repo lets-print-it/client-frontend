@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sheet from "./Sheet/Sheet";
 import { getOrder, getPrinter, leaveReview } from "../api/printit";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import { Order, OrderStatus } from "../models/printit";
 
 export async function load({ params }: { params: any }) {
@@ -9,24 +9,23 @@ export async function load({ params }: { params: any }) {
 }
 
 function getShortId(id: string) {
-  // last 5 characters
   return id.slice(-5).toUpperCase();
 }
 
 function getStatusBadgeStyle(status: OrderStatus): string {
   switch (status) {
     case "awaiting_payment":
-      return "bg-green-200";
+      return "bg-green-600";
     case "awaiting_printing":
-      return "bg-green-200";
+      return "bg-gray-600";
     case "printing":
       return "bg-blue-500";
     case "completed":
       return "bg-blue-200";
     case "canceled":
-      return "bg-red-200";
+      return "bg-red-500";
   }
-  return "  ";
+  return "bg-red-500";
 }
 
 function humanizeStatus(status: OrderStatus): string {
@@ -36,16 +35,27 @@ function humanizeStatus(status: OrderStatus): string {
     case "awaiting_printing":
       return "В очереди на печать";
     case "printing":
-      return "Печатаем";
+      return "Печатается";
     case "completed":
       return "Выполнен";
     case "canceled":
       return "Отменен";
   }
-  return "  ";
+  return "ERROR #173";
 }
 
 function OrderScreen() {
+  let revalidator = useRevalidator();
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      if (revalidator.state === "idle") {
+        revalidator.revalidate();
+      }
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const order = useLoaderData() as Order;
   const [starsStatus, setStarsStatus] = React.useState<number>(0);
 
@@ -71,7 +81,8 @@ function OrderScreen() {
             >
               {humanizeStatus(order.status)}
             </div>
-            {/*<p>Принтер: {order.printer_code}</p>*/}
+            <h2 className="mt-5 text-xl font-semibold">Принтер</h2>
+            <p className="mt-2 text-gray-400">Код: {order.printer_id}</p>
             <h2 className="mt-5 text-xl font-semibold">Файлы</h2>
             {order.attachments.map((attachment, index) => (
               <div
@@ -87,8 +98,8 @@ function OrderScreen() {
           <div className="mt-8">
             <h2 className="text-xl font-bold">Оцените нас!</h2>
             <p className="text-gray-400">
-              Мы запустили это проект совсем недавно и нам очень нужна Ваша
-              обратная связь
+              Мы запустили этот проект совсем недавно и нам очень нужна Ваша
+              обратная связь :)
             </p>
             <div className="mt-5 flex justify-center">
               {[1, 2, 3, 4, 5].map((star) => (

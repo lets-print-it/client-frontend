@@ -31,7 +31,7 @@ function CodeEnterScreen() {
 
   return (
     <Sheet>
-      <div className="flex w-72 flex-col items-center rounded-lg bg-white p-5">
+      <div className="flex w-full flex-col items-center">
         <h2 className="mb-5 text-xl font-bold">Отсканируйте QR-код</h2>
         <QrReader
           containerStyle={{ width: "100%", height: "200px" }}

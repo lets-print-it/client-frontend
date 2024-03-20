@@ -33,3 +33,7 @@ code {
     --rsbs-mr: auto;
   }
 }
+
+html {
+  @apply bg-blue-100;
+}
