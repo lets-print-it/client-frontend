@@ -31,15 +31,11 @@ export async function createOrder(
   printerCode: string,
   data: any,
 ): Promise<Order> {
-  let res = await client.post(
-    `api/v1/orders?printer_code=${printerCode}`,
-    data,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+  let res = await client.post(`orders?printer_code=${printerCode}`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-  );
+  });
   return res.data;
 }
 
