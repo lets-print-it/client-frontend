@@ -3,7 +3,7 @@ import { Printer, Location, Order } from "../models/printit";
 
 let client = axios.create({
   timeout: 20000,
-  baseURL: "https://mongrel-careful-truly.ngrok-free.app/api/v1/",
+  baseURL: "https://api.letsprintit.ru/api/v1/",
   headers: {
     "ngrok-skip-browser-warning": "69420",
   },
