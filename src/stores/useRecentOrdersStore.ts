@@ -12,7 +12,7 @@ export const useRecentOrdersStore = create<RecentOrdersState>()(
   persist(
     (set, get) => ({
       ordersId: [],
-      addOrder: (id) => set({ ordersId: [...get().ordersId, id] }),
+      addOrder: (id) => set({ ordersId: [id, ...get().ordersId] }),
       removeOrder: (id) =>
         set({ ordersId: get().ordersId.filter((orderId) => orderId !== id) }),
       clear: () => set({ ordersId: [] }),

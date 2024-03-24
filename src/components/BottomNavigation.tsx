@@ -7,6 +7,7 @@ function BottomNavigation() {
     <div className="z-1 fixed bottom-10 left-1/2 h-16 w-full max-w-sm -translate-x-1/2 rounded-full border border-gray-200 bg-white">
       <div className="mx-auto grid h-full max-w-lg grid-cols-3">
         <button
+          onClick={() => navigate("/orders")}
           data-tooltip-target="tooltip-wallet"
           type="button"
           className="group inline-flex flex-col items-center  justify-center rounded-s-full px-5 hover:bg-gray-50"

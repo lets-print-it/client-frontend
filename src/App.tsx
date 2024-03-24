@@ -11,6 +11,7 @@ import OrderScreen, {
   load as orderScreenLoad,
 } from "./components/Screens/OrderScreen";
 import LoginScreen from "./components/Screens/LoginScreen";
+import OrdersHistoryScreen from "./components/Screens/OrdersHistoryScreen";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginScreen />,
+  },
+  {
+    path: "/orders",
+    element: <OrdersHistoryScreen />,
   },
 ]);
 
