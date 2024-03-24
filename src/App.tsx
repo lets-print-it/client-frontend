@@ -12,6 +12,7 @@ import OrderScreen, {
 } from "./components/Screens/OrderScreen";
 import LoginScreen from "./components/Screens/LoginScreen";
 import OrdersHistoryScreen from "./components/Screens/OrdersHistoryScreen";
+import ProfileScreen from "./components/Screens/ProfileScreen";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     element: <PrintersMap />,
   },
   {
-    path: "/printer/:printerCode/new_order",
+    path: "/printers/:printerCode/new_order",
     element: <OrderCreationScreen />,
     loader: orderCreateLoad,
   },
@@ -33,17 +34,23 @@ const router = createBrowserRouter([
     element: <OrderConfirmationScreen />,
   },
   {
-    path: "/orders/:orderId",
-    element: <OrderScreen />,
-    loader: orderScreenLoad,
-  },
-  {
     path: "/login",
     element: <LoginScreen />,
   },
   {
     path: "/orders",
     element: <OrdersHistoryScreen />,
+    children: [
+      {
+        path: "/:orderId",
+        element: <OrderScreen />,
+        loader: orderScreenLoad,
+      },
+    ],
+  },
+  {
+    path: "/profile",
+    element: <ProfileScreen />,
   },
 ]);
 

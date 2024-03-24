@@ -36,7 +36,7 @@ function CodeEnterScreen() {
 
   async function checkAndRedirectToPrinter(printerCode: string) {
     if ((await getPrinter(printerCode)) !== null) {
-      navigate(`/printer/${printerCode}/new_order`, { replace: false });
+      navigate(`/printers/${printerCode}/new_order`, { replace: false });
     } else {
       setErrorMessage("Принтер не найден");
     }
