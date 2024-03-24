@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
 import Sheet from "./Sheet/Sheet";
@@ -7,12 +7,21 @@ import Button from "./elements/Button";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import PrinterBottomSheet from "./Map/PrinterBottomSheet";
 import LoginOfferBottomSheet from "./LoginOfferBottomSheet";
+import { useAuthStore } from "./stores/useAuthStore";
 
 function CodeEnterScreen() {
+  const getAccessToken = useAuthStore((state) => state.getAccessToken);
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+
   const navigate = useNavigate();
   const [loginBottomSheet, setLoginBottomSheet] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+
+  // useEffect(() => {
+  //   alert(getAccessToken());
+  //   setAccessToken("eyJhbGci");
+  // }, [getAccessToken]);
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
     setInput(e.target.value);
@@ -39,15 +48,15 @@ function CodeEnterScreen() {
       <div className="flex w-full flex-col items-center">
         <h2 className="mb-5 text-xl font-bold">Отсканируйте QR-код</h2>
         <QrReader
-          containerStyle={{ width: "100%", height: "200px" }}
           videoContainerStyle={{
-            width: "100%",
+            width: "200px",
             height: "200px",
-            paddingTop: "0",
+            borderRadius: "10px",
+            backgroundColor: "#dcdcdc",
           }}
-          videoStyle={{ width: "100%", height: "200px", display: "block" }}
-          onResult={handleQrResult}
+          videoStyle={{ objectFit: "cover" }}
           constraints={{ facingMode: "environment" }}
+          onResult={handleQrResult}
         />
         <p className="mb-1 pt-7 text-xs text-gray-500">
           или введите код принтера вручную
@@ -79,7 +88,7 @@ function CodeEnterScreen() {
           }}
         />
       </div>
-      <BottomSheet open={true} onDismiss={() => setLoginBottomSheet(false)}>
+      <BottomSheet open={false} onDismiss={() => setLoginBottomSheet(false)}>
         {<LoginOfferBottomSheet />}
       </BottomSheet>
     </Sheet>
