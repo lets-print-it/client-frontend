@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <OrdersHistoryScreen />,
     children: [
       {
-        path: "/:orderId",
+        path: ":orderId",
         element: <OrderScreen />,
         loader: orderScreenLoad,
       },
