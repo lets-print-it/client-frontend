@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
-import Sheet from "./Sheet/Sheet";
-import { getPrinter } from "../api/printit";
-import Button from "./elements/Button";
+import Sheet from "../Sheet/Sheet";
+import { getPrinter } from "../../api/printit";
+import Button from "../elements/Button";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import PrinterBottomSheet from "./Map/PrinterBottomSheet";
-import LoginOfferBottomSheet from "./LoginOfferBottomSheet";
-import { useAuthStore } from "./stores/useAuthStore";
+import LoginOfferBottomSheet from "../Orders/LoginOfferBottomSheet";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 function CodeEnterScreen() {
   const getAccessToken = useAuthStore((state) => state.getAccessToken);

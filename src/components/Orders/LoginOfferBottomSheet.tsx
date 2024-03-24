@@ -1,6 +1,6 @@
 import React from "react";
-import TelegramLoginButton from "./TelegramLoginButton/TelegramLoginButton";
-import Button from "./elements/Button";
+import TelegramLoginButton from "../TelegramLoginButton/TelegramLoginButton";
+import Button from "../elements/Button";
 
 function LoginOfferBottomSheet() {
   return (

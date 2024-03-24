@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { confirmOrder } from "../api/printit";
-import Sheet from "./Sheet/Sheet";
+import { confirmOrder } from "../../api/printit";
+import Sheet from "../Sheet/Sheet";
 
-function OrderConfirmation() {
+function OrderConfirmationScreen() {
   let { confirmationToken } = useParams() as { confirmationToken: string };
   const navigate = useNavigate();
 
   async function confirmAndRedirect() {
     let order = await confirmOrder(confirmationToken);
-    navigate(`/order/${order.id}`);
+    navigate(`/orders/${order.id}`);
   }
 
   useEffect(() => {
@@ -45,4 +44,4 @@ function OrderConfirmation() {
   );
 }
 
-export default OrderConfirmation;
+export default OrderConfirmationScreen;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Location, Printer } from "../../models/printit";
 import PrinterInfoCard from "../PrinterInfoCard/PrinterInfoCard";
 import Button from "../elements/Button";

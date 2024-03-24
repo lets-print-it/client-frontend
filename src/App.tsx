@@ -1,15 +1,16 @@
 import PrintersMap, { load } from "./components/Map/PrintersMap";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import OrderCreationScreen, {
-  createOrderAction,
   load as orderCreateLoad,
-} from "./components/OrderCreationScreen";
-import CodeEnterScreen from "./components/CodeEnterScreen";
-import OrderConfirmation from "./components/OrderConfirmation";
+} from "./components/Screens/OrderCreationScreen";
+import CodeEnterScreen from "./components/Screens/CodeEnterScreen";
+import OrderConfirmationScreen from "./components/Orders/OrderConfirmationScreen";
 import { YMaps } from "@pbe/react-yandex-maps";
 import React from "react";
-import OrderScreen, { load as orderScreenLoad } from "./components/OrderScreen";
-import LoginScreen from "./components/LoginScreen";
+import OrderScreen, {
+  load as orderScreenLoad,
+} from "./components/Screens/OrderScreen";
+import LoginScreen from "./components/Screens/LoginScreen";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,6 @@ const router = createBrowserRouter([
   {
     path: "/printer/:printerCode/new_order",
     element: <OrderCreationScreen />,
-    action: createOrderAction,
     loader: orderCreateLoad,
   },
   {
@@ -29,10 +29,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/confirm_order/:confirmationToken",
-    element: <OrderConfirmation />,
+    element: <OrderConfirmationScreen />,
   },
   {
-    path: "/order/:orderId",
+    path: "/orders/:orderId",
     element: <OrderScreen />,
     loader: orderScreenLoad,
   },

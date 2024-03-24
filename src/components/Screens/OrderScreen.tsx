@@ -1,47 +1,13 @@
 import React, { useEffect } from "react";
-import Sheet from "./Sheet/Sheet";
-import { getOrder, getPrinter, leaveReview } from "../api/printit";
+import Sheet from "../Sheet/Sheet";
+import { getOrder, leaveReview } from "../../api/printit";
 import { useLoaderData, useRevalidator } from "react-router-dom";
-import { Order, OrderStatus } from "../models/printit";
+import { Order, OrderStatus } from "../../models/printit";
+import { getShortId } from "../Orders/formatters";
+import { OrderStatusBadge } from "../Orders/OrderStatusBadge";
 
 export async function load({ params }: { params: any }) {
   return await getOrder(params.orderId);
-}
-
-function getShortId(id: string) {
-  return id.slice(-5).toUpperCase();
-}
-
-function getStatusBadgeStyle(status: OrderStatus): string {
-  switch (status) {
-    case "awaiting_payment":
-      return "bg-green-600";
-    case "awaiting_printing":
-      return "bg-gray-600";
-    case "printing":
-      return "bg-blue-500";
-    case "completed":
-      return "bg-blue-200";
-    case "canceled":
-      return "bg-red-500";
-  }
-  return "bg-red-500";
-}
-
-function humanizeStatus(status: OrderStatus): string {
-  switch (status) {
-    case "awaiting_payment":
-      return "Ожидает оплаты";
-    case "awaiting_printing":
-      return "В очереди на печать";
-    case "printing":
-      return "Печатается";
-    case "completed":
-      return "Выполнен";
-    case "canceled":
-      return "Отменен";
-  }
-  return "ERROR #173";
 }
 
 function OrderScreen() {
@@ -75,11 +41,18 @@ function OrderScreen() {
                 #{getShortId(order.id)}
               </h1>
             </div>
-            <div
-              className={`${getStatusBadgeStyle(order.status)} mt-3 inline-flex rounded-full px-4 py-1 text-xs font-bold text-white shadow
-              `}
-            >
-              {humanizeStatus(order.status)}
+            <div className="mt-3">
+              <OrderStatusBadge order={order} className="inline-flex" />
+              {order.status === OrderStatus.AwaitingPayment && (
+                <button
+                  className="ml-3 text-sm text-blue-500 underline"
+                  onClick={() => {
+                    window.location.href = order.payment.payment_url;
+                  }}
+                >
+                  Оплатить сейчас!
+                </button>
+              )}
             </div>
             <h2 className="mt-5 text-xl font-semibold">Принтер</h2>
             <p className="mt-2 text-gray-400">Код: {order.printer_id}</p>

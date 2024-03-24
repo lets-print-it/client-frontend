@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Printer, Location, Order } from "../models/printit";
+import { Location, Order, Printer } from "../models/printit";
 
 let client = axios.create({
   timeout: 20000,
@@ -29,13 +29,17 @@ export async function getPrinter(printerCode: string): Promise<Printer | null> {
 
 export async function createOrder(
   printerCode: string,
-  data: any,
+  file: any,
 ): Promise<Order> {
-  let res = await client.post(`orders?printer_code=${printerCode}`, data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
+  let res = await client.post(
+    `orders?printer_code=${printerCode}`,
+    { file: file },
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     },
-  });
+  );
   return res.data;
 }
 

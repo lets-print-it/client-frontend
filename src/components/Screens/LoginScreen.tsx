@@ -1,6 +1,6 @@
 import React from "react";
-import TelegramLoginButton from "./TelegramLoginButton/TelegramLoginButton";
-import Sheet from "./Sheet/Sheet";
+import TelegramLoginButton from "../TelegramLoginButton/TelegramLoginButton";
+import Sheet from "../Sheet/Sheet";
 
 function LoginScreen() {
   return (

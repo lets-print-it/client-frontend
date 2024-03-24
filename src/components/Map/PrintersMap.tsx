@@ -4,9 +4,11 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import PrinterBottomSheet from "./PrinterBottomSheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { getLocations } from "../../api/printit";
+import { getLocations, getOrder } from "../../api/printit";
 import { getUserLocation } from "../../api/location";
-import { Location, Printer } from "../../models/printit";
+import { Location, Order, Printer } from "../../models/printit";
+import { useRecentOrdersStore } from "../../stores/useRecentOrdersStore";
+import OrderCard from "../Orders/OrderCard";
 
 export async function load(): Promise<Location[]> {
   return await getLocations();
@@ -26,6 +28,9 @@ function PrintersMap() {
   const locations = useLoaderData() as Location[];
   const navigate = useNavigate();
 
+  const recentOrderIds = useRecentOrdersStore((state) => state.ordersId);
+  const [lastOrder, setLastOrder] = useState<Order | null>(null);
+
   function onPrintButtonClick() {
     navigate("/code_enter");
   }
@@ -40,8 +45,15 @@ function PrintersMap() {
     }
   }
 
+  async function loadAndSetLastOrder() {
+    if (recentOrderIds.length > 0) {
+      setLastOrder(await getOrder(recentOrderIds[0]));
+    }
+  }
+
   useEffect(() => {
     getAndSetUserLocation().catch((e) => console.error(e));
+    loadAndSetLastOrder();
   }, []);
 
   return (
@@ -78,12 +90,21 @@ function PrintersMap() {
       </Map>
       <div className="fixed bottom-0 left-1/2 mb-14 -translate-x-1/2">
         <button
-          className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+          className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white shadow hover:bg-blue-700"
           onClick={onPrintButtonClick}
         >
-          Print It!
+          Print it!
         </button>
       </div>
+      {/* recent order floating card at top */}
+      {lastOrder && (
+        <div className="fixed left-1/2 top-0 mt-3 w-96 -translate-x-1/2 rounded-xl bg-white shadow">
+          <OrderCard
+            order={lastOrder}
+            onClick={() => navigate(`/orders/${lastOrder.id}`)}
+          />
+        </div>
+      )}
       <div className="max-w-lg">
         <BottomSheet open={bottomSheet} onDismiss={() => setBottomSheet(false)}>
           {selection && (
