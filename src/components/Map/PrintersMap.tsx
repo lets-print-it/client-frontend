@@ -9,6 +9,7 @@ import { getUserLocation } from "../../api/location";
 import { Location, Order, Printer } from "../../models/printit";
 import { useRecentOrdersStore } from "../../stores/useRecentOrdersStore";
 import OrderCard from "../Orders/OrderCard";
+import BottomNavigation from "../BottomNavigation";
 
 export async function load(): Promise<Location[]> {
   return await getLocations();
@@ -88,14 +89,15 @@ function PrintersMap() {
           />
         ))}
       </Map>
-      <div className="fixed bottom-0 left-1/2 mb-14 -translate-x-1/2">
-        <button
-          className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white shadow hover:bg-blue-700"
-          onClick={onPrintButtonClick}
-        >
-          Print it!
-        </button>
-      </div>
+      <BottomNavigation />
+      {/*<div className="fixed bottom-0 left-1/2 mb-14 -translate-x-1/2">*/}
+      {/*  <button*/}
+      {/*    className="h-12 w-32 rounded-full bg-blue-500 px-4 py-2 font-semibold text-white shadow hover:bg-blue-700"*/}
+      {/*    onClick={onPrintButtonClick}*/}
+      {/*  >*/}
+      {/*    Print it!*/}
+      {/*  </button>*/}
+      {/*</div>*/}
       {/* recent order floating card at top */}
       {lastOrder && (
         <div className="fixed left-1/2 top-0 mt-3 w-96 -translate-x-1/2 rounded-xl bg-white shadow">
