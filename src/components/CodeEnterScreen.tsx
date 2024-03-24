@@ -4,9 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Sheet from "./Sheet/Sheet";
 import { getPrinter } from "../api/printit";
 import Button from "./elements/Button";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import PrinterBottomSheet from "./Map/PrinterBottomSheet";
+import LoginOfferBottomSheet from "./LoginOfferBottomSheet";
 
 function CodeEnterScreen() {
   const navigate = useNavigate();
+  const [loginBottomSheet, setLoginBottomSheet] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
@@ -75,6 +79,9 @@ function CodeEnterScreen() {
           }}
         />
       </div>
+      <BottomSheet open={true} onDismiss={() => setLoginBottomSheet(false)}>
+        {<LoginOfferBottomSheet />}
+      </BottomSheet>
     </Sheet>
   );
 }

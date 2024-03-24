@@ -9,6 +9,7 @@ import OrderConfirmation from "./components/OrderConfirmation";
 import { YMaps } from "@pbe/react-yandex-maps";
 import React from "react";
 import OrderScreen, { load as orderScreenLoad } from "./components/OrderScreen";
+import LoginScreen from "./components/LoginScreen";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     path: "/order/:orderId",
     element: <OrderScreen />,
     loader: orderScreenLoad,
+  },
+  {
+    path: "/login",
+    element: <LoginScreen />,
   },
 ]);
 
