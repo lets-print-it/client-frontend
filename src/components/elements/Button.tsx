@@ -12,7 +12,7 @@ function Button({ text, onClick, className, type }: ButtonProps) {
     <button
       onClick={onClick}
       type={type || "button"}
-      className={`${className} group relative me-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-cyan-500 group-hover:to-blue-500`}
+      className={`${className} group relative me-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-blue-400 to-blue-500 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none group-hover:from-blue-400 group-hover:to-blue-500`}
     >
       <span className="relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0">
         {text}

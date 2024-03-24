@@ -18,7 +18,7 @@ function PrinterBottomSheet({
       <Button
         text="Выбрать принтер"
         onClick={onPrintButtonClick}
-        className="mb-10"
+        className="mb-10 mt-7"
       />
     </div>
   );

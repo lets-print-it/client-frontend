@@ -61,3 +61,9 @@ export interface OrderAttachment {
   color: boolean;
   pages: number;
 }
+
+export interface User {
+  id: string;
+  full_name: string;
+  email: string;
+}

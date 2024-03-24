@@ -13,44 +13,56 @@ import OrderScreen, {
 import LoginScreen from "./components/Screens/LoginScreen";
 import OrdersHistoryScreen from "./components/Screens/OrdersHistoryScreen";
 import ProfileScreen from "./components/Screens/ProfileScreen";
+import ErrorScreen from "./components/Screens/ErrorScreen";
 
 const router = createBrowserRouter([
   {
     path: "/",
     loader: load,
     element: <PrintersMap />,
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/printers/:printerCode/new_order",
     element: <OrderCreationScreen />,
+    errorElement: <ErrorScreen />,
     loader: orderCreateLoad,
   },
   {
     path: "/code_enter",
     element: <CodeEnterScreen />,
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/confirm_order/:confirmationToken",
     element: <OrderConfirmationScreen />,
+    errorElement: <ErrorScreen />,
+  },
+  {
+    path: "/orders/:orderId",
+    element: <OrderScreen />,
+    errorElement: <ErrorScreen />,
+    loader: orderScreenLoad,
   },
   {
     path: "/login",
     element: <LoginScreen />,
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/orders",
     element: <OrdersHistoryScreen />,
-    children: [
-      {
-        path: ":orderId",
-        element: <OrderScreen />,
-        loader: orderScreenLoad,
-      },
-    ],
+    errorElement: <ErrorScreen />,
   },
   {
     path: "/profile",
     element: <ProfileScreen />,
+    errorElement: <ErrorScreen />,
+  },
+  {
+    path: "/error",
+    element: <ErrorScreen />,
+    errorElement: <ErrorScreen />,
   },
 ]);
 

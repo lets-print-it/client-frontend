@@ -66,6 +66,7 @@ function BottomNavigation() {
           <div className="tooltip-arrow" data-popper-arrow=""></div>
         </div>
         <button
+          onClick={() => navigate("/profile")}
           data-tooltip-target="tooltip-profile"
           type="button"
           className="group inline-flex flex-col items-center justify-center rounded-e-full px-5 hover:bg-gray-50"

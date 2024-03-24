@@ -9,18 +9,11 @@ import LoginOfferBottomSheet from "../Orders/LoginOfferBottomSheet";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 function CodeEnterScreen() {
-  const getAccessToken = useAuthStore((state) => state.getAccessToken);
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
-
   const navigate = useNavigate();
   const [loginBottomSheet, setLoginBottomSheet] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-
-  // useEffect(() => {
-  //   alert(getAccessToken());
-  //   setAccessToken("eyJhbGci");
-  // }, [getAccessToken]);
+  const user = useAuthStore((state) => state.getUser());
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
     setInput(e.target.value);
@@ -30,16 +23,32 @@ function CodeEnterScreen() {
     if (!!result) {
       let text = result.text;
       let code = text.split("/").pop();
-      checkAndRedirectToPrinter(code);
+      setInput(code);
+      handlePrinterSelection();
     }
   }
 
-  async function checkAndRedirectToPrinter(printerCode: string) {
-    if ((await getPrinter(printerCode)) !== null) {
-      navigate(`/printers/${printerCode}/new_order`, { replace: false });
-    } else {
-      setErrorMessage("Принтер не найден");
+  async function handlePrinterSelection() {
+    if (input.length === 0) {
+      setErrorMessage("Введите код принтера");
+      return;
     }
+
+    if ((await getPrinter(input)) === null) {
+      setErrorMessage("Принтер не найден");
+      return;
+    }
+
+    if (!user) {
+      setLoginBottomSheet(true);
+      return;
+    }
+
+    redirectToPrinter(input);
+  }
+
+  async function redirectToPrinter(printerCode: string) {
+    navigate(`/printers/${printerCode}/new_order`);
   }
 
   return (
@@ -78,17 +87,16 @@ function CodeEnterScreen() {
         <Button
           className="mb-2 mt-10"
           text="Выбрать принтер"
-          onClick={() => {
-            if (input.length === 0) {
-              setErrorMessage("Введите код принтера");
-              return;
-            }
-            checkAndRedirectToPrinter(input);
-          }}
+          onClick={() => handlePrinterSelection()}
         />
       </div>
-      <BottomSheet open={false} onDismiss={() => setLoginBottomSheet(false)}>
-        {<LoginOfferBottomSheet />}
+      <BottomSheet
+        open={loginBottomSheet}
+        onDismiss={() => {
+          setLoginBottomSheet(false);
+        }}
+      >
+        {<LoginOfferBottomSheet callback={() => redirectToPrinter(input)} />}
       </BottomSheet>
     </Sheet>
   );
