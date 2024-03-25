@@ -20,7 +20,7 @@ function LoginOfferBottomSheet({ callback }: { callback: () => void }) {
       </div>
       <Button
         text="Продолжить без авторизации"
-        className="mt-9к"
+        className="mt-9"
         onClick={callback}
       />
       <p className="mb-5 mt-9 text-xs text-gray-400">

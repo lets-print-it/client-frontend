@@ -36,6 +36,15 @@ function PrintersMap() {
     navigate("/code_enter");
   }
 
+  // useEffect(() => {
+  //   let interval = setInterval(() => {
+  //     if (revalidator.state === "idle") {
+  //       revalidator.revalidate();
+  //     }
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   async function getAndSetUserLocation() {
     try {
       let loc = await getUserLocation();
