@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, useParams } from "react-router-dom";
-import Sheet from "../Sheet/Sheet";
+import Sheet from "./Sheet/Sheet";
 
 function Shortener() {
   const { printerId } = useParams() as { printerId: string };

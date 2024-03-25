@@ -9,7 +9,7 @@ import { getUserLocation } from "../../api/location";
 import { Location, Order, Printer } from "../../models/printit";
 import { useRecentOrdersStore } from "../../stores/useRecentOrdersStore";
 import OrderCard from "../Orders/OrderCard";
-import BottomNavigation from "../BottomNavigation";
+import BottomNavigation from "../BottomNavigation/BottomNavigation";
 
 export async function load(): Promise<Location[]> {
   return await getLocations();
@@ -35,15 +35,6 @@ function PrintersMap() {
   function onPrintButtonClick() {
     navigate("/code_enter");
   }
-
-  // useEffect(() => {
-  //   let interval = setInterval(() => {
-  //     if (revalidator.state === "idle") {
-  //       revalidator.revalidate();
-  //     }
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   async function getAndSetUserLocation() {
     try {

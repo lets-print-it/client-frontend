@@ -14,7 +14,7 @@ import LoginScreen from "./components/Screens/LoginScreen";
 import OrdersHistoryScreen from "./components/Screens/OrdersHistoryScreen";
 import ProfileScreen from "./components/Screens/ProfileScreen";
 import ErrorScreen from "./components/Screens/ErrorScreen";
-import Shortener from "./components/Screens/Shortener";
+import Shortener from "./components/Shortener";
 
 const router = createBrowserRouter([
   {
