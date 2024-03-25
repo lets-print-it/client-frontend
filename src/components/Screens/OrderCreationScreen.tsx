@@ -21,6 +21,7 @@ export async function load({ params }: { params: any }) {
       status: 404,
     });
   }
+  return res;
 }
 
 function OrderCreationScreen() {
