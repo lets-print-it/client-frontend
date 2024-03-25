@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { QrReader } from "react-qr-reader";
 import { useNavigate } from "react-router-dom";
 import Sheet from "../Sheet/Sheet";
@@ -10,31 +10,35 @@ import { useAuthStore } from "../../stores/useAuthStore";
 
 function CodeEnterScreen() {
   const navigate = useNavigate();
-  const [loginBottomSheet, setLoginBottomSheet] = React.useState(false);
-  const [input, setInput] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [input, setInput] = useState("");
+  const [selectedPrinterId, setSelectedPrinterId] = useState<string | null>(
+    null,
+  );
+  const [loginBottomSheet, setLoginBottomSheet] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const user = useAuthStore((state) => state.getUser());
 
   function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
     setInput(e.target.value);
+    setSelectedPrinterId(e.target.value);
   }
 
   function handleQrResult(result: any, error: any) {
     if (!!result) {
       let text = result.text;
       let code = text.split("/").pop();
-      setInput(code);
-      handlePrinterSelection();
+      handlePrinterSelection(code);
+      setSelectedPrinterId(code);
     }
   }
 
-  async function handlePrinterSelection() {
-    if (input.length === 0) {
+  async function handlePrinterSelection(printerId: string) {
+    if (printerId.length === 0) {
       setErrorMessage("Введите код принтера");
       return;
     }
 
-    if ((await getPrinter(input)) === null) {
+    if ((await getPrinter(printerId)) === null) {
       setErrorMessage("Принтер не найден");
       return;
     }
@@ -44,7 +48,7 @@ function CodeEnterScreen() {
       return;
     }
 
-    redirectToPrinter(input);
+    redirectToPrinter(printerId);
   }
 
   async function redirectToPrinter(printerCode: string) {
@@ -87,7 +91,7 @@ function CodeEnterScreen() {
         <Button
           className="mb-2 mt-10"
           text="Выбрать принтер"
-          onClick={() => handlePrinterSelection()}
+          onClick={() => handlePrinterSelection(input)}
         />
       </div>
       <BottomSheet
@@ -96,7 +100,11 @@ function CodeEnterScreen() {
           setLoginBottomSheet(false);
         }}
       >
-        {<LoginOfferBottomSheet callback={() => redirectToPrinter(input)} />}
+        {
+          <LoginOfferBottomSheet
+            callback={() => redirectToPrinter(selectedPrinterId!)}
+          />
+        }
       </BottomSheet>
     </Sheet>
   );
